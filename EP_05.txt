@@ -1,0 +1,69 @@
+﻿EP05 - Algoritmos de Ordenação
+
+
+<Matheus da SIlva Pener>
+
+Este Exercício-Programa compara algoritmos de ordenação
+
+
+* Descreva o ambiente de execução utilizado:
+
+
+O ambiente de execução para os testes será realizado no VSCODE (Visual Studio Code) utilizando a própria máquina do usuário como processador, podendo influenciar o tempo de execução de máquina para máquina, entretanto vale ressaltar que a proporcionalidade tende a se manter. 
+	
+
+* Descreva o método de medição do tempo:
+
+
+A medição do tempo foi realizada usando a função clock() da biblioteca time.h para todos os testes. Além do mais o vetor é preenchido com valores “aleatórios” com a função rand() 
+	
+
+* Tempos de execução em milissegundos:
+
+
+Método/Tempo
+	n=5000
+	n=10000
+	n=15000
+	n=20000
+	InsertionSort
+	33.14700
+	93.70300
+	157.56900
+	250.42400
+	SelectionSort
+	44.56800
+	122.91300
+	255.71300
+	436.18300
+	MergeSort
+	4.85100
+	5.99100
+	6.43300
+	7.79900
+	HeapSort
+	4.09800
+	6.39700
+	8.29100
+	11.36100
+	QuickSort
+	4.79800
+	8.25300
+	13.22900
+	17.90600
+	
+
+* Código fonte:
+(ao clicar no link não achará minha implementação, recomendo que copie e cole a url completa pois dessa maneira funciona) 🙂
+Método
+	Link para a implementação no GitHub
+	InsertionSort
+	https://github.com/Matheus-Pener/AED_1/blob/add1c0293edad6e34a39c4916a8a2bec22025af4/InserctionSort.c
+	SelectionSort
+	https://github.com/Matheus-Pener/AED_1/blob/6804e1fb4cfc7efc096052f62eb178058798b141/Selectionsort.c
+	MergeSort
+	https://github.com/Matheus-Pener/AED_1/blob/def0f182e899e622a9d7225a4d43f694621a988e/Margesort.c
+	HeapSort
+	https://github.com/Matheus-Pener/AED_1/blob/4ef11d633035e1a7cb426cfccd12a6934e89034b/HeapSort.c
+	QuickSort
+	https://github.com/Matheus-Pener/AED_1/blob/fa49ac6f1a1965c83eda5914d0e04a3dd18ca574/QuickSort.c
