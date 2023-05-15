@@ -1,0 +1,29 @@
+#include <stdio.h>
+#include <string.h>
+#define MAX 100000
+
+int main(){
+  char main[MAX], aux = 0;
+  int tam;
+  scanf("%s", main);
+  tam = strlen(main);
+  for(int i = 0; i < tam; i++){
+    if(main[i] == 'z' || main[i] == 'Z'){
+      if(main[i+1] == 'e' || main[i+1] == 'E'){
+        if(main[i+2] == 'l' || main[i+2] == 'L'){
+          if(main[i+3] == 'd' || main[i+3] == 'D'){
+            if(main[i+4] == 'a' || main[i+4] == 'A'){
+              aux = 1;
+            }
+          }
+        }
+      }
+    }
+    if(aux == 1){
+      printf("Link Bolado\n");
+      return 0;
+    }
+    }
+  printf("Link Tranquilo\n");
+  return 0;
+  }
