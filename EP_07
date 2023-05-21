@@ -1,0 +1,67 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct Node {
+    char letra;
+    struct Node* right;
+    struct Node* left;
+} Node;
+
+Node* novoNode(char letra) {
+    Node* novo = (Node*)malloc(sizeof(Node));
+    novo->letra = letra;
+    novo->left = novo->right = NULL;
+    return novo;
+}
+int ocorrencia(char* str, int inicio, int fim, char letra) {
+    int i;
+    for (i = inicio; i <= fim; ++i) {
+        if (str[i] == letra) {
+            return i;
+        }
+    }
+    return -1;
+}
+Node* tree(char* s2, char* s1, int inInicio, int inFim, int* indice) {
+    int s2_indice;
+
+    if (inInicio > inFim) {
+        return NULL;
+    }
+
+    Node* no = novoNode(s1[(*indice)++]);
+    if (inInicio == inFim) {
+        return no;
+    }
+
+    s2_indice = ocorrencia(s2, inInicio, inFim, no->letra);
+    no->left = tree(s2, s1, inInicio, s2_indice - 1, indice);
+    no->right = tree(s2, s1, s2_indice + 1, inFim, indice);
+
+    return no;
+}
+
+void imprime_node(Node* no) {
+    if (no == NULL) {
+        return;
+    }
+    imprime_node(no->left);
+    imprime_node(no->right);
+    printf("%c", no->letra);
+}
+
+int main(void) {
+    int N, qtsNodes, i;
+    char s1[1000], s2[1000];
+
+    scanf("%d", &N);
+
+    while (N--) {
+        scanf("%d %s %s%*c", &qtsNodes, s1, s2);
+        int indice = 0;
+        Node* raiz = tree(s2, s1, 0, qtsNodes - 1, &indice);
+        imprime_node(raiz);
+        printf("\n");
+    }
+    return 0;
+}
