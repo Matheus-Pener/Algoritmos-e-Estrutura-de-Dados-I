@@ -1,0 +1,165 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+typedef struct Node
+{
+    char valor;
+    struct Node *left;
+    struct Node *right;
+} Node;
+
+Node *createNode(char c)
+{
+    Node *newnode = (Node *)malloc(sizeof(Node));
+    newnode->valor = c;
+    newnode->left = NULL;
+    newnode->right = NULL;
+    return newnode;
+}
+
+Node *insertNode(Node *root, char value)
+{
+    if (root == NULL)
+        return createNode(value);
+    else
+    {
+        if (value < root->valor)
+        {
+            root->left = insertNode(root->left, value);
+        }
+        else
+        {
+            root->right = insertNode(root->right, value);
+        }
+        return root;
+    }
+}
+
+Node *verifica(Node *root, char value)
+{
+    if (root == NULL)
+    {
+        return NULL;
+    }
+
+    if (root->valor == value)
+    {
+        return root;
+    }
+
+    Node *result = verifica(root->left, value);
+    if (result != NULL)
+    {
+        return result;
+    }
+
+    return verifica(root->right, value);
+}
+
+void infixa(Node *root, int *firstElement)
+{
+    if (root != NULL)
+    {
+        infixa(root->left, firstElement);
+        if (*firstElement)
+        {
+            printf("%c", root->valor);
+            *firstElement = 0;
+        }
+        else
+        {
+            printf(" %c", root->valor);
+        }
+        infixa(root->right, firstElement);
+    }
+}
+
+void prefixa(Node *root, int *firstElement)
+{
+    if (root != NULL)
+    {
+        if (*firstElement)
+        {
+            printf("%c", root->valor);
+            *firstElement = 0;
+        }
+        else
+        {
+            printf(" %c", root->valor);
+        }
+        prefixa(root->left, firstElement);
+        prefixa(root->right, firstElement);
+    }
+}
+
+void posfixa(Node *root, int *firstElement)
+{
+    if (root != NULL)
+    {
+        posfixa(root->left, firstElement);
+        posfixa(root->right, firstElement);
+        if (*firstElement)
+        {
+            printf("%c", root->valor);
+            *firstElement = 0;
+        }
+        else
+        {
+            printf(" %c", root->valor);
+        }
+    }
+}
+
+int main()
+{
+    Node *root = NULL;
+    char choice[10];
+    char value;
+
+    while (scanf("%s", choice) != EOF)
+    {
+
+        if (strcmp(choice, "I") == 0 || strcmp(choice, "i") == 0)
+        {
+            scanf(" %c", &value);
+            root = insertNode(root, value);
+        }
+        else if (strcmp(choice, "P") == 0 || strcmp(choice, "p") == 0)
+        {
+            scanf(" %c", &value);
+            Node *result = verifica(root, value);
+            if (result != NULL)
+            {
+                printf("%c existe\n", result->valor);
+            }
+            else
+            {
+                printf("%c nao existe\n", value);
+            }
+        }
+        else if (strcmp(choice, "INFIXA") == 0 || strcmp(choice, "infixa") == 0)
+        {
+            int firstElement = 1;
+            infixa(root, &firstElement);
+            printf("\n");
+        }
+        else if (strcmp(choice, "PREFIXA") == 0 || strcmp(choice, "prefixa") == 0)
+        {
+            int firstElement = 1;
+            prefixa(root, &firstElement);
+            printf("\n");
+        }
+        else if (strcmp(choice, "POSFIXA") == 0 || strcmp(choice, "posfixa") == 0)
+        {
+            int firstElement = 1;
+            posfixa(root, &firstElement);
+            printf("\n");
+        }
+        else
+        {
+        }
+    }
+
+    return 0;
+}
