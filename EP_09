@@ -1,0 +1,173 @@
+#include <stdio.h>
+#include <stdlib.h>
+int operacoes = 1;
+
+int ParaDireita(char **mapa, int altpos, int larpos, int quantidade, int altura, int largura){
+    for(int i = larpos + 1 ; i < largura; i ++){
+        if(mapa[altpos][i] == '*'){
+        return 1;
+        }
+        else if(mapa[altpos][i] == 'v' || mapa[altpos][i] == '<' || mapa[altpos][i] == '>' || mapa[altpos][i] == '^'){
+            operacoes++;
+            larpos = i;
+            if(operacoes > quantidade){
+                return 0;
+            }
+            else if(mapa[altpos][i] == '>'){
+                return ParaDireita(mapa, altpos, larpos, quantidade, altura, largura);
+            }
+            else if(mapa[altpos][i] == '<'){
+                return ParaEsquerda(mapa, altpos, larpos, quantidade, altura, largura);
+            }
+            else if(mapa[altpos][i] == 'v'){
+                return ParaBaixo(mapa, altpos, larpos, quantidade, altura, largura);
+            }
+            else{
+                return ParaCima(mapa, altpos, larpos, quantidade, altura, largura);
+            }
+        }
+        else{
+            
+        }
+    }
+    return 0;
+}
+int ParaEsquerda(char **mapa, int altpos, int larpos, int quantidade, int altura, int largura){
+    for(int i = larpos - 1; i >= 0; i--){
+        if(mapa[altpos][i] == '*'){
+        return 1;
+        }
+        else if(mapa[altpos][i] == 'v' || mapa[altpos][i] == '<' || mapa[altpos][i] == '>' || mapa[altpos][i] == '^'){
+            operacoes++;
+            larpos = i;
+            if(operacoes > quantidade){
+                return 0;
+            }
+            else if(mapa[altpos][i] == '>'){
+                return ParaDireita(mapa, altpos, larpos, quantidade, altura, largura);
+            }
+            else if(mapa[altpos][i] == '<'){
+                return ParaEsquerda(mapa, altpos, larpos, quantidade, altura, largura);
+            }
+            else if(mapa[altpos][i] == 'v'){
+                return ParaBaixo(mapa, altpos, larpos, quantidade, altura, largura);
+            }
+            else{
+                return ParaCima(mapa, altpos, larpos, quantidade, altura, largura);
+            }
+        }
+    }
+    return 0;
+}
+int ParaBaixo(char **mapa, int altpos, int larpos, int quantidade, int altura, int largura){
+    for(int i = altpos + 1; i < altura; i++){
+        if(mapa[i][larpos] == '*'){
+        return 1;
+        }
+        else if(mapa[i][larpos] == 'v' || mapa[i][larpos] == '<' || mapa[i][larpos] == '>' || mapa[i][larpos] == '^'){
+            operacoes++;
+            altpos = i;
+            if(operacoes > quantidade){
+                return 0;
+            }
+            else if(mapa[i][larpos] == '>'){
+                return ParaDireita(mapa, altpos, larpos, quantidade, altura, largura);
+            }
+            else if(mapa[i][larpos] == '<'){
+                return ParaEsquerda(mapa, altpos, larpos, quantidade, altura, largura);
+            }
+            else if(mapa[i][larpos] == 'v'){
+                return ParaBaixo(mapa, altpos, larpos, quantidade, altura, largura);
+            }
+            else{
+                return ParaCima(mapa, altpos, larpos, quantidade, altura, largura);
+            }
+        }
+    }
+    return 0;
+}
+int ParaCima(char **mapa, int altpos, int larpos, int quantidade, int altura, int largura){
+    for(int i = altpos - 1; i >= 0; i--){
+        if(mapa[i][larpos] == '*'){
+        return 1;
+        }
+        else if(mapa[i][larpos] == 'v' || mapa[i][larpos] == '<' || mapa[i][larpos] == '>' || mapa[i][larpos] == '^'){
+            operacoes++;
+            altpos = i;
+            if(operacoes > quantidade){
+                return 0;
+            }
+            else if(mapa[i][larpos] == '>'){
+                return ParaDireita(mapa, altpos, larpos, quantidade, altura, largura);
+            }
+            else if(mapa[i][larpos] == '<'){
+                return ParaEsquerda(mapa, altpos, larpos, quantidade, altura, largura);
+            }
+            else if(mapa[i][larpos] == 'v'){
+                return ParaBaixo(mapa, altpos, larpos, quantidade, altura, largura);
+            }
+            else{
+                return ParaCima(mapa, altpos, larpos, quantidade, altura, largura);
+            }
+        }
+    }
+    return 0;
+}
+int Qtd_direcoes(char **mapa, int altura, int largura) {
+    int contador = 0;
+    for (int i = 0; i < altura; i++) {
+        for (int j = 0; j < largura; j++) {
+            if ((mapa[i][j] == '<') || (mapa[i][j] == '>') || (mapa[i][j] == 'v') || (mapa[i][j] == '^')) {
+                contador++;
+            }
+        }
+    }
+    return contador;
+}
+
+int main() {
+    int altura, largura, flag = 0, altpos, larpos, quantidade, verdade;
+    scanf("%d %d", &largura, &altura);
+    getchar();
+    
+    char **mapa = (char **)malloc(altura * sizeof(char *));
+    for (int i = 0; i < altura; i++) {
+        mapa[i] = (char *)malloc(largura * sizeof(char));
+    }
+
+    for (int i = 0; i < altura; i++) {
+        for (int j = 0; j < largura; j++) {
+            mapa[i][j] = getchar();
+        }
+        getchar();
+    }
+
+    for (int i = 0; i < altura; i++) {
+        if (flag == 1)
+            break;
+        for (int j = 0; j < largura; j++) {
+            if (mapa[i][j] == '*') {
+                flag = 1;
+                altpos = i;
+                larpos = j;
+                break;
+            }
+        }
+    }
+    if (flag == 0){
+        printf("!\n");
+        return 0;
+    }
+    quantidade = Qtd_direcoes(mapa, altura, largura);
+    verdade = ParaDireita(mapa, 0, 0, quantidade, altura, largura);
+    if(verdade == 1){
+        printf("*\n");
+    }
+    else
+        printf("!\n");
+    for (int i = 0; i < altura; i++) {
+        free(mapa[i]);
+    }
+    free(mapa);
+    return 0;
+}
