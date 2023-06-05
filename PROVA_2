@@ -1,0 +1,99 @@
+#include <iostream>
+
+using namespace std;
+struct Node {
+    int value;
+    Node* left;
+    Node* right;
+};
+
+Node* createNode(int value) {
+    Node* newNode = new Node;
+    newNode->value = value;
+    newNode->left = NULL;
+    newNode->right = NULL;
+    return newNode;
+}
+
+Node* insert(Node* root, int value) {
+    if (root == NULL) {
+        return createNode(value);
+    }
+
+    if (value < root->value) {
+        root->left = insert(root->left, value);
+    } else {
+        root->right = insert(root->right, value);
+    }
+
+    return root;
+}
+
+void preOrder(Node* root) {
+    if (root != NULL) {
+        cout << " " << root->value;
+        preOrder(root->left);
+        preOrder(root->right);
+    }
+}
+
+void inOrder(Node* root) {
+    if (root != NULL) {
+        inOrder(root->left);
+        cout << " " << root->value;
+        inOrder(root->right);
+    }
+}
+
+void postOrder(Node* root) {
+    if (root != NULL) {
+        postOrder(root->left);
+        postOrder(root->right);
+        cout << " " << root->value;
+    }
+}
+
+void freeTree(Node* root) {
+    if (root != NULL) {
+        freeTree(root->left);
+        freeTree(root->right);
+        delete root;
+    }
+}
+
+int main() {
+    int num_cases, case_num, n, i, value;
+    cin >> num_cases;
+
+    for (case_num = 1; case_num <= num_cases; case_num++) {
+        if (case_num > 1) {
+            cout << endl;
+        }
+        cout << "Case " << case_num << ":" << endl;
+
+        cin >> n;
+        Node* root = NULL;
+
+        for (i = 0; i < n; i++) {
+            cin >> value;
+            root = insert(root, value);
+        }
+
+        cout << "Pre.:";
+        preOrder(root);
+        cout << endl;
+
+        cout << "In..:";
+        inOrder(root);
+        cout << endl;
+
+        cout << "Post:";
+        postOrder(root);
+        cout << endl;
+
+        freeTree(root);
+    }
+    cout << endl;
+
+    return 0;
+}
