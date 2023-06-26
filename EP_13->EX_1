@@ -1,0 +1,68 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
+
+#define MAX_PALAVRAS 5000
+#define MAX_CARACTERES 200
+
+typedef struct {
+    char palavra[MAX_CARACTERES + 1];
+} String;
+
+int compararStrings(const void *a, const void *b) {
+    return strcmp(((String *)a)->palavra, ((String *)b)->palavra);
+}
+
+void adicionarPalavra(String *dicionario, int *tamanhoDicionario, const char *palavra) {
+    for (int i = 0; i < *tamanhoDicionario; i++) {
+        if (strcmp(dicionario[i].palavra, palavra) == 0) {
+            return;  // Palavra já existe no dicionário
+        }
+    }
+
+    if (*tamanhoDicionario < MAX_PALAVRAS) {
+        strcpy(dicionario[*tamanhoDicionario].palavra, palavra);
+        (*tamanhoDicionario)++;
+    }
+}
+
+void converterParaMinusculas(char *palavra) {
+    for (int i = 0; palavra[i]; i++) {
+        palavra[i] = tolower(palavra[i]);
+    }
+}
+
+int main() {
+    String dicionario[MAX_PALAVRAS];
+    int tamanhoDicionario = 0;
+    char linha[MAX_CARACTERES + 1];
+
+    while (fgets(linha, sizeof(linha), stdin)) {
+        int i = 0;
+        while (linha[i]) {
+            if (isalpha(linha[i])) {
+                int j = i;
+                while (isalpha(linha[j])) {
+                    j++;
+                }
+                linha[j] = '\0';
+
+                converterParaMinusculas(&linha[i]);
+                adicionarPalavra(dicionario, &tamanhoDicionario, &linha[i]);
+
+                i = j + 1;
+            } else {
+                i++;
+            }
+        }
+    }
+
+    qsort(dicionario, tamanhoDicionario, sizeof(String), compararStrings);
+
+    for (int i = 0; i < tamanhoDicionario; i++) {
+        printf("%s\n", dicionario[i].palavra);
+    }
+
+    return 0;
+}
